@@ -1,0 +1,5 @@
+option('asio_include_dir', type : 'string', value : '/home/matthias/School/NVS/includes/asio/asio/include', description : 'the include dir of asio')
+option('spdlog_include_dir', type : 'string', value : '/home/matthias/School/NVS/includes/spdlog/include', description : 'the include dir of spdlog')
+option('clipp_include_dir', type : 'string', value : '/home/matthias/School/NVS/includes/clipp/include', description : 'the include dir of clipp')
+option('fmt_include_dir', type : 'string', value : '/home/matthias/School/NVS/includes/fmt/include', description : 'the include dir of fmt')
+option('json_include_dir', type : 'string', value : '/home/matthias/School/NVS/includes/json', description : 'the include dir of json')

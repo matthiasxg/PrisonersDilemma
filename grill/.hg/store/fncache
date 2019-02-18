@@ -1,0 +1,6 @@
+data/src/main.cpp.i
+data/meson.build.i
+data/meson_options.txt.i
+data/src/dummy.proto.i
+data/src/includes.cpp.i
+data/LICENSE.i

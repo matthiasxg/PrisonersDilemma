@@ -1,0 +1,85 @@
+Build started at 2019-02-18T15:05:44.490937
+Main binary: /usr/bin/python3
+Python system: Linux
+The Meson build system
+Version: 0.49.999
+Source dir: /home/matthias/School/NVS/PrisonersDilemma/grill
+Build dir: /home/matthias/School/NVS/PrisonersDilemma/grill/build
+Build type: native build
+Project name: PrisonersDilemma
+Project version: 0.1
+Sanity testing C++ compiler: c++
+Is cross compiler: False.
+Sanity check compiler command line: c++ /home/matthias/School/NVS/PrisonersDilemma/grill/build/meson-private/sanitycheckcpp.cc -o /home/matthias/School/NVS/PrisonersDilemma/grill/build/meson-private/sanitycheckcpp.exe
+Sanity check compile stdout:
+
+-----
+Sanity check compile stderr:
+
+-----
+Running test binary command: /home/matthias/School/NVS/PrisonersDilemma/grill/build/meson-private/sanitycheckcpp.exe
+Native C++ compiler: c++ (gcc 7.3.0 "c++ (Ubuntu 7.3.0-27ubuntu1~18.04) 7.3.0")
+Build machine cpu family: x86_64
+Build machine cpu: x86_64
+Dependency threads found: YES 
+Program protoc found: YES (/usr/local/bin/protoc)
+Found pkg-config: /usr/bin/pkg-config (0.29.1)
+Determining dependency 'protobuf' with pkg-config executable '/usr/bin/pkg-config'
+Called `/usr/bin/pkg-config --modversion protobuf` -> 0
+3.6.1
+Called `/usr/bin/pkg-config --cflags protobuf` -> 0
+-pthread -I/usr/local/include
+Called `/usr/bin/pkg-config protobuf --libs` -> 0
+-L/usr/local/lib -lprotobuf -pthread
+Called `/usr/bin/pkg-config protobuf --libs` -> 0
+-L/usr/local/lib -lprotobuf -pthread
+Running compile:
+Working directory:  /tmp/tmp3xffvzqb
+Command line:  c++ /tmp/tmp3xffvzqb/testfile.cpp -pipe -D_FILE_OFFSET_BITS=64 -o /tmp/tmp3xffvzqb/output.exe -O0 -fpermissive 
+
+Code:
+ #include<stdio.h>
+        
+        int main(int argc, char **argv) {
+            printf("%ld\n", (long)(sizeof(void *)));
+            return 0;
+        };
+Compiler stdout:
+ 
+Compiler stderr:
+ 
+Program stdout:
+
+8
+
+Program stderr:
+
+
+Running compile:
+Working directory:  /tmp/tmp2h49o0i8
+Command line:  c++ /tmp/tmp2h49o0i8/testfile.cpp -pipe -D_FILE_OFFSET_BITS=64 -c -o /tmp/tmp2h49o0i8/output.obj -O0 -fpermissive --print-search-dirs 
+
+Code:
+ 
+Compiler stdout:
+ install: /usr/lib/gcc/x86_64-linux-gnu/7/
+programs: =/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/7/../../../../x86_64-linux-gnu/bin/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/7/../../../../x86_64-linux-gnu/bin/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/7/../../../../x86_64-linux-gnu/bin/
+libraries: =/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/7/../../../../x86_64-linux-gnu/lib/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/7/../../../../x86_64-linux-gnu/lib/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/7/../../../../x86_64-linux-gnu/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/7/../../../../lib/:/lib/x86_64-linux-gnu/7/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/7/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/7/../../../../x86_64-linux-gnu/lib/:/usr/lib/gcc/x86_64-linux-gnu/7/../../../:/lib/:/usr/lib/
+
+Compiler stderr:
+ 
+Dependency protobuf found: YES 3.6.1
+Build targets in project: 2
+Option werror is: True [default: true]
+Found ninja-1.8.2 at /usr/bin/ninja
+Running compile:
+Working directory:  /tmp/tmpas_7m0xp
+Command line:  c++ /tmp/tmpas_7m0xp/testfile.cpp -pipe -D_FILE_OFFSET_BITS=64 -c -o /tmp/tmpas_7m0xp/output.obj -std=c++17 
+
+Code:
+ int i = static_cast<int>(0);
+Compiler stdout:
+ 
+Compiler stderr:
+ 
+Compiler accepts -std=c++17: YES

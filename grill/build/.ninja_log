@@ -1,0 +1,15 @@
+# ninja log v5
+0	5300	1550127709	PrisonersDilemma_Client@exe/src_PrisonersDilemma_Client_main.cpp.o	3a5ef52269607dc7
+0	5326	1550127709	PrisonersDilemma_Server@exe/src_PrisonersDilemma_Server_main.cpp.o	5da0d44643f964ef
+5302	5461	1550127709	PrisonersDilemma_Client	f5d919620808e086
+5327	5473	1550127709	PrisonersDilemma_Server	77cff17b7f41f74c
+2	5163	1550128147	PrisonersDilemma_Server@exe/src_PrisonersDilemma_Server_main.cpp.o	5da0d44643f964ef
+2	5251	1550128147	PrisonersDilemma_Client@exe/src_PrisonersDilemma_Client_main.cpp.o	3a5ef52269607dc7
+5163	5303	1550128147	PrisonersDilemma_Server	77cff17b7f41f74c
+5251	5392	1550128147	PrisonersDilemma_Client	f5d919620808e086
+2	5232	1550498751	PrisonersDilemma_Client@exe/src_PrisonersDilemma_Client_main.cpp.o	3a5ef52269607dc7
+1	141	1550498769	PrisonersDilemma_Client	f5d919620808e086
+1	6285	1550498802	PrisonersDilemma_Server@exe/src_PrisonersDilemma_Server_main.cpp.o	5da0d44643f964ef
+6285	6516	1550498802	PrisonersDilemma_Server	77cff17b7f41f74c
+2	6345	1550498859	PrisonersDilemma_Server@exe/src_PrisonersDilemma_Server_main.cpp.o	5da0d44643f964ef
+6345	6558	1550498859	PrisonersDilemma_Server	77cff17b7f41f74c
