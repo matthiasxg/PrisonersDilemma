@@ -1,4 +1,4 @@
-Build started at 2019-02-18T15:05:44.490937
+Build started at 2019-02-25T15:00:51.532296
 Main binary: /usr/bin/python3
 Python system: Linux
 The Meson build system
@@ -23,6 +23,7 @@ Build machine cpu family: x86_64
 Build machine cpu: x86_64
 Dependency threads found: YES 
 Program protoc found: YES (/usr/local/bin/protoc)
+Program grpc_cpp_plugin found: YES (/usr/local/bin/grpc_cpp_plugin)
 Found pkg-config: /usr/bin/pkg-config (0.29.1)
 Determining dependency 'protobuf' with pkg-config executable '/usr/bin/pkg-config'
 Called `/usr/bin/pkg-config --modversion protobuf` -> 0
@@ -34,8 +35,8 @@ Called `/usr/bin/pkg-config protobuf --libs` -> 0
 Called `/usr/bin/pkg-config protobuf --libs` -> 0
 -L/usr/local/lib -lprotobuf -pthread
 Running compile:
-Working directory:  /tmp/tmp3xffvzqb
-Command line:  c++ /tmp/tmp3xffvzqb/testfile.cpp -pipe -D_FILE_OFFSET_BITS=64 -o /tmp/tmp3xffvzqb/output.exe -O0 -fpermissive 
+Working directory:  /tmp/tmpbx7g1zvj
+Command line:  c++ /tmp/tmpbx7g1zvj/testfile.cpp -pipe -D_FILE_OFFSET_BITS=64 -o /tmp/tmpbx7g1zvj/output.exe -O0 -fpermissive 
 
 Code:
  #include<stdio.h>
@@ -56,8 +57,8 @@ Program stderr:
 
 
 Running compile:
-Working directory:  /tmp/tmp2h49o0i8
-Command line:  c++ /tmp/tmp2h49o0i8/testfile.cpp -pipe -D_FILE_OFFSET_BITS=64 -c -o /tmp/tmp2h49o0i8/output.obj -O0 -fpermissive --print-search-dirs 
+Working directory:  /tmp/tmp_tsgc8v0
+Command line:  c++ /tmp/tmp_tsgc8v0/testfile.cpp -pipe -D_FILE_OFFSET_BITS=64 -c -o /tmp/tmp_tsgc8v0/output.obj -O0 -fpermissive --print-search-dirs 
 
 Code:
  
@@ -69,12 +70,32 @@ libraries: =/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/7/../
 Compiler stderr:
  
 Dependency protobuf found: YES 3.6.1
+Determining dependency 'grpc' with pkg-config executable '/usr/bin/pkg-config'
+Called `/usr/bin/pkg-config --modversion grpc` -> 0
+7.0.0
+Called `/usr/bin/pkg-config --cflags grpc` -> 0
+-I/usr/local/include
+Called `/usr/bin/pkg-config grpc --libs` -> 0
+-L/usr/local/lib -lgrpc
+Called `/usr/bin/pkg-config grpc --libs` -> 0
+-L/usr/local/lib -lgrpc
+Dependency grpc found: YES 7.0.0
+Determining dependency 'grpc++' with pkg-config executable '/usr/bin/pkg-config'
+Called `/usr/bin/pkg-config --modversion grpc++` -> 0
+1.18.0
+Called `/usr/bin/pkg-config --cflags grpc++` -> 0
+-pthread -I/usr/local/include
+Called `/usr/bin/pkg-config grpc++ --libs` -> 0
+-L/usr/local/lib -lgrpc++
+Called `/usr/bin/pkg-config grpc++ --libs` -> 0
+-L/usr/local/lib -lgrpc++
+Dependency grpc++ found: YES 1.18.0
 Build targets in project: 2
-Option werror is: True [default: true]
+Option werror is: False [default: false]
 Found ninja-1.8.2 at /usr/bin/ninja
 Running compile:
-Working directory:  /tmp/tmpas_7m0xp
-Command line:  c++ /tmp/tmpas_7m0xp/testfile.cpp -pipe -D_FILE_OFFSET_BITS=64 -c -o /tmp/tmpas_7m0xp/output.obj -std=c++17 
+Working directory:  /tmp/tmpen8chw0q
+Command line:  c++ /tmp/tmpen8chw0q/testfile.cpp -pipe -D_FILE_OFFSET_BITS=64 -c -o /tmp/tmpen8chw0q/output.obj -std=c++17 
 
 Code:
  int i = static_cast<int>(0);

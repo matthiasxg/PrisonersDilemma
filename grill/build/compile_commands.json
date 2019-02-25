@@ -1,12 +1,32 @@
 [
   {
     "directory": "/home/matthias/School/NVS/PrisonersDilemma/grill/build",
-    "command": "c++ -IPrisonersDilemma_Client@exe -I. -I.. -I../include -I/usr/local/include -I/home/matthias/School/NVS/includes/asio/asio/include -I/home/matthias/School/NVS/includes/clipp/include -I/home/matthias/School/NVS/includes/spdlog/include -I/home/matthias/School/NVS/includes/json -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Wpedantic -Werror -std=c++17 -g -DASIO_STANDALONE -DASIO_NO_DEPRECATED -pthread  -MD -MQ 'PrisonersDilemma_Client@exe/src_PrisonersDilemma_Client_main.cpp.o' -MF 'PrisonersDilemma_Client@exe/src_PrisonersDilemma_Client_main.cpp.o.d' -o 'PrisonersDilemma_Client@exe/src_PrisonersDilemma_Client_main.cpp.o' -c ../src/PrisonersDilemma_Client/main.cpp",
-    "file": "../src/PrisonersDilemma_Client/main.cpp"
+    "command": "c++ -Iserver@exe -I. -I.. -I../include -I/usr/local/include -I/home/matthias/School/NVS/includes/asio/asio/include -I/home/matthias/School/NVS/includes/clipp/include -I/home/matthias/School/NVS/includes/spdlog/include -I/home/matthias/School/NVS/includes/json -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Wpedantic -std=c++17 -g -DASIO_STANDALONE -DASIO_NO_DEPRECATED -pthread  -MD -MQ 'server@exe/meson-generated_PrisonersDilemma.pb.cc.o' -MF 'server@exe/meson-generated_PrisonersDilemma.pb.cc.o.d' -o 'server@exe/meson-generated_PrisonersDilemma.pb.cc.o' -c 'server@exe/PrisonersDilemma.pb.cc'",
+    "file": "server@exe/PrisonersDilemma.pb.cc"
   },
   {
     "directory": "/home/matthias/School/NVS/PrisonersDilemma/grill/build",
-    "command": "c++ -IPrisonersDilemma_Server@exe -I. -I.. -I../include -I/usr/local/include -I/home/matthias/School/NVS/includes/asio/asio/include -I/home/matthias/School/NVS/includes/clipp/include -I/home/matthias/School/NVS/includes/spdlog/include -I/home/matthias/School/NVS/includes/json -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Wpedantic -Werror -std=c++17 -g -DASIO_STANDALONE -DASIO_NO_DEPRECATED -pthread  -MD -MQ 'PrisonersDilemma_Server@exe/src_PrisonersDilemma_Server_main.cpp.o' -MF 'PrisonersDilemma_Server@exe/src_PrisonersDilemma_Server_main.cpp.o.d' -o 'PrisonersDilemma_Server@exe/src_PrisonersDilemma_Server_main.cpp.o' -c ../src/PrisonersDilemma_Server/main.cpp",
-    "file": "../src/PrisonersDilemma_Server/main.cpp"
+    "command": "c++ -Iserver@exe -I. -I.. -I../include -I/usr/local/include -I/home/matthias/School/NVS/includes/asio/asio/include -I/home/matthias/School/NVS/includes/clipp/include -I/home/matthias/School/NVS/includes/spdlog/include -I/home/matthias/School/NVS/includes/json -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Wpedantic -std=c++17 -g -DASIO_STANDALONE -DASIO_NO_DEPRECATED -pthread  -MD -MQ 'server@exe/meson-generated_PrisonersDilemma.grpc.pb.cc.o' -MF 'server@exe/meson-generated_PrisonersDilemma.grpc.pb.cc.o.d' -o 'server@exe/meson-generated_PrisonersDilemma.grpc.pb.cc.o' -c 'server@exe/PrisonersDilemma.grpc.pb.cc'",
+    "file": "server@exe/PrisonersDilemma.grpc.pb.cc"
+  },
+  {
+    "directory": "/home/matthias/School/NVS/PrisonersDilemma/grill/build",
+    "command": "c++ -Iserver@exe -I. -I.. -I../include -I/usr/local/include -I/home/matthias/School/NVS/includes/asio/asio/include -I/home/matthias/School/NVS/includes/clipp/include -I/home/matthias/School/NVS/includes/spdlog/include -I/home/matthias/School/NVS/includes/json -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Wpedantic -std=c++17 -g -DASIO_STANDALONE -DASIO_NO_DEPRECATED -pthread  -MD -MQ 'server@exe/src_server_main.cpp.o' -MF 'server@exe/src_server_main.cpp.o.d' -o 'server@exe/src_server_main.cpp.o' -c ../src/server/main.cpp",
+    "file": "../src/server/main.cpp"
+  },
+  {
+    "directory": "/home/matthias/School/NVS/PrisonersDilemma/grill/build",
+    "command": "c++ -Iclient@exe -I. -I.. -I../include -I/usr/local/include -I/home/matthias/School/NVS/includes/asio/asio/include -I/home/matthias/School/NVS/includes/clipp/include -I/home/matthias/School/NVS/includes/spdlog/include -I/home/matthias/School/NVS/includes/json -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Wpedantic -std=c++17 -g -DASIO_STANDALONE -DASIO_NO_DEPRECATED -pthread  -MD -MQ 'client@exe/meson-generated_PrisonersDilemma.pb.cc.o' -MF 'client@exe/meson-generated_PrisonersDilemma.pb.cc.o.d' -o 'client@exe/meson-generated_PrisonersDilemma.pb.cc.o' -c 'client@exe/PrisonersDilemma.pb.cc'",
+    "file": "client@exe/PrisonersDilemma.pb.cc"
+  },
+  {
+    "directory": "/home/matthias/School/NVS/PrisonersDilemma/grill/build",
+    "command": "c++ -Iclient@exe -I. -I.. -I../include -I/usr/local/include -I/home/matthias/School/NVS/includes/asio/asio/include -I/home/matthias/School/NVS/includes/clipp/include -I/home/matthias/School/NVS/includes/spdlog/include -I/home/matthias/School/NVS/includes/json -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Wpedantic -std=c++17 -g -DASIO_STANDALONE -DASIO_NO_DEPRECATED -pthread  -MD -MQ 'client@exe/meson-generated_PrisonersDilemma.grpc.pb.cc.o' -MF 'client@exe/meson-generated_PrisonersDilemma.grpc.pb.cc.o.d' -o 'client@exe/meson-generated_PrisonersDilemma.grpc.pb.cc.o' -c 'client@exe/PrisonersDilemma.grpc.pb.cc'",
+    "file": "client@exe/PrisonersDilemma.grpc.pb.cc"
+  },
+  {
+    "directory": "/home/matthias/School/NVS/PrisonersDilemma/grill/build",
+    "command": "c++ -Iclient@exe -I. -I.. -I../include -I/usr/local/include -I/home/matthias/School/NVS/includes/asio/asio/include -I/home/matthias/School/NVS/includes/clipp/include -I/home/matthias/School/NVS/includes/spdlog/include -I/home/matthias/School/NVS/includes/json -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Wpedantic -std=c++17 -g -DASIO_STANDALONE -DASIO_NO_DEPRECATED -pthread  -MD -MQ 'client@exe/src_client_main.cpp.o' -MF 'client@exe/src_client_main.cpp.o.d' -o 'client@exe/src_client_main.cpp.o' -c ../src/client/main.cpp",
+    "file": "../src/client/main.cpp"
   }
 ]
