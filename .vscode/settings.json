@@ -59,6 +59,10 @@
         "utility": "cpp",
         "__config": "cpp",
         "__nullptr": "cpp",
-        "algorithm": "cpp"
-    }
+        "algorithm": "cpp",
+        "*.ipp": "cpp",
+        "strstream": "cpp",
+        "valarray": "cpp"
+    },
+    "C_Cpp.intelliSenseEngineFallback": "Enabled"
 }

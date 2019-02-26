@@ -17,9 +17,3 @@
 #include "clipp.h"
 #pragma GCC diagnostic pop
 
-// Include spdlog
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wsign-conversion"
-#include "spdlog/spdlog.h"
-#include "spdlog/sinks/stdout_color_sinks.h"
-#pragma GCC diagnostic pop

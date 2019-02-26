@@ -35,22 +35,20 @@ grpcpp_dep = dependency('grpc++', required : true)
 gen = generator(protoc, \
   output    : ['@BASENAME@.pb.cc', '@BASENAME@.pb.h', '@BASENAME@.grpc.pb.cc', '@BASENAME@.grpc.pb.h',
                '@BASENAME@_pb2.py', '@BASENAME@_pb2_grpc.py'],
-  arguments : ['--proto_path=@SOURCE_DIR@/src',
+  arguments : ['--proto_path=@SOURCE_DIR@/src/static',
                '--plugin=protoc-gen-grpc=' + grpc_cpp_plugin.path(),
         #        '--plugin=protoc-gen-grpc=' + grpc_python_plugin.path(),
                '--grpc_out=@BUILD_DIR@',
                '--cpp_out=@BUILD_DIR@',
-               '../src/@PLAINNAME@'])
+               '../src/static/@PLAINNAME@'])
 
 # change proto file accordingly
-proto = gen.process('src/PrisonersDilemma.proto')
+proto = gen.process('src/static/PrisonersDilemma.proto')
 # end protobuf
 
-# subdir('SUBDIR1')
-
 inc_dir = include_directories('include')
-server_src = [proto, 'src/server/main.cpp']
-client_src = [proto, 'src/client/main.cpp']
+server_src = [proto, 'src/server/main.cpp', 'src/server/server.cpp', 'src/static/player.cpp']
+client_src = [proto, 'src/client/main.cpp', 'src/client/client.cpp', 'src/static/player.cpp']
 
 executable('server',
            sources : server_src,

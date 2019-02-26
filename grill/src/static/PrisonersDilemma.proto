@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+message Request {
+
+  enum Type {
+    START = 0;
+    PLAY = 1;
+  }
+
+  Type type = 1;
+  int32 id = 2;
+  string name = 3;
+}
+
+message Response {
+  enum Type {
+    CONFIRM = 0;
+    GAMESTART = 1;
+    PLAY = 2;
+  }
+
+  Type type = 1;
+  int32 id = 2;
+  string name = 3;
+}

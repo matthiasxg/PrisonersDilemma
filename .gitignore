@@ -31,4 +31,6 @@
 *.out
 *.app
 
+# Useless stuff
 grill/build/*
+.vscode
