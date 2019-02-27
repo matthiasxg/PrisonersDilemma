@@ -16,7 +16,8 @@ Response Client::getResponse(Player& client) {
     asio::read_until(*client.getSocket(), buffer, "ENDOFMESSAGE");
 
     asio::streambuf::const_buffers_type bufs = buffer.data();
-    string responseString{asio::buffers_begin(bufs), asio::buffers_begin(bufs) + buffer.size()}; 
+    string responseString{asio::buffers_begin(bufs), 
+                          asio::buffers_begin(bufs) + buffer.size()}; 
     responseString.erase(responseString.size() - 12);
 
     Response response;
@@ -44,7 +45,13 @@ void Client::connectToServer(short unsigned int port) {
     // I want to play
     Request request;
     request.set_type(Request::START);
-    request.set_name("Matthias");
+
+    // Select player name
+    logger.input("Whats your name? ");
+    string name;
+    cin >> name;
+
+    request.set_name(name);
     sendRequest(ref(myPlayer), ref(request));
 
     // Get confirmation
@@ -53,14 +60,14 @@ void Client::connectToServer(short unsigned int port) {
         myPlayer.setName(response.name());
         myPlayer.setId(response.id());
 
-        logger.info("I am playing as " + myPlayer.getName());
-        logger.debug("Id: " + to_string(myPlayer.getId()));
+        logger.info("Welcome " + myPlayer.getName());
+        logger.debug("You are player " + to_string(myPlayer.getId()));
     }
 
     // Wait for game start
     response = getResponse(ref(myPlayer));
     if (response.type() == Response::GAMESTART) {
-        logger.info("Two prisoners are connected, game stars");
+        logger.info("Game starts");
     }
 
     // Game starts
@@ -75,9 +82,8 @@ void Client::getJsonSettings() {
 int Client::getChoiceFromCmd() {
     logger.info("Please make a decision!");
     logger.info("0 = not guilty, 1 = guilty");
+    logger.input("");
     int result{-1};
-
-    logger.info("Input");
     cin >> result;
     if (result == 0) {
         logger.info("You said you are not guilty");
@@ -101,7 +107,8 @@ void Client::play(Player& client) {
         }
     }
     
-    while (true) {}
+    // Disconnect
+    client.getSocket()->close();
 }
 
 Client::Client(short unsigned int port) {

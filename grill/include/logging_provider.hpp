@@ -1,13 +1,13 @@
 #pragma once
+
+#define SPDLOG_EOL ""
+
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wsign-conversion"
 #include "spdlog/spdlog.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
 #pragma GCC diagnostic pop
 #include <string>
-
-#undef SPDLOG_EOL
-#define SPDLOG_EOL " "
 
 class LoggingProvider {
 public:
@@ -20,18 +20,24 @@ public:
     ~LoggingProvider() {}
 
     void info(std::string message) {
-        spdlog::info(message);
+        spdlog::info(message + "\n");
     }
 
     void warning(std::string message) {
-        spdlog::warn(message);
+        spdlog::warn(message + "\n");
     }
     
     void error(std::string message) {
-        spdlog::error(message);
+        spdlog::error(message + "\n");
     }
     
     void debug(std::string message) {
-        spdlog::debug(message);
+        spdlog::debug(message + "\n");
+    }
+
+    void input(std::string message) {
+        spdlog::set_pattern("[Prisoners Dilemma] [%^Input%$] %v");
+        spdlog::info(message);
+        spdlog::set_pattern("[Prisoners Dilemma] [%^%l%$] %v");
     }
 };

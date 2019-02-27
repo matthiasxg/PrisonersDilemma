@@ -1,4 +1,5 @@
 {
-    "rounds": 3,
-    "debug": false
+    "port": 8081,
+    "rounds": 1,
+    "debug": true
 }

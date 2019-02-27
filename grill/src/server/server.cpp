@@ -13,6 +13,9 @@ void Server::sendResponse(Player& client, Response& response) {
     string s{};
     response.SerializeToString(&s);
     asio::write(*(client.getSocket()), asio::buffer(s + "ENDOFMESSAGE"));
+
+    logger.debug("Sent response of type " + to_string(response.type()) + 
+                 " to " + to_string(client.getId()));
 }
 
 Request Server::getRequest(Player& client) {
@@ -25,6 +28,9 @@ Request Server::getRequest(Player& client) {
 
     Request request;
     request.ParseFromString(requestString);
+
+    logger.debug("Got request of type " + to_string(request.type()) + 
+                 " from " + to_string(client.getId()));
 
     return request;
 }
@@ -47,8 +53,10 @@ bool Server::gamePreparation(Player& client) {
         sendResponse(ref(client), ref(response));
 
         // Wait for second game partner
+        logger.debug(to_string(client.getId()) + " waits for second prisoner");
         std::unique_lock<std::mutex> lk(m);
         cv.wait(lk, []{return ready;});
+        logger.debug("Two players are connected");
 
         // Notify client about game start
         response.set_type(Response::GAMESTART);
@@ -63,6 +71,16 @@ void Server::handleClient(Player& client) {
     if(gamePreparation(ref(client))) {
         logger.info("Preperations completed");
         play(ref(client));
+
+        // Disconnect
+        // client.getSocket()->close();
+        client.setId(-1);
+        while (clients.at(0).getId() != -1 || clients.at(1).getId() != -1) {}
+        clients.clear();
+        clients.reserve(2);
+        ready = false;
+
+        logger.info("Server restarts...");
     }
 }
 
@@ -134,7 +152,7 @@ void Server::startServer() {
     tcp::acceptor acceptor{ctx, ep};
 
     logger.info("Server started");
-    logger.debug("Listening on port " + to_string(port));
+    logger.debug("Port " + to_string(port));
 
     acceptor.listen();
     
@@ -142,7 +160,7 @@ void Server::startServer() {
     clients.reserve(2);
 
     while(true){
-
+        
         // 2 = Number of players
         while (clients.size() < 2) {
             Player player = make_shared<asio::ip::tcp::socket>(acceptor.accept());
