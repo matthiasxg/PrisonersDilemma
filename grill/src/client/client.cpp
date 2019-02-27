@@ -2,6 +2,7 @@
 
 using namespace asio::ip;
 using namespace std;
+using json = nlohmann::json;
 
 void Client::sendRequest(Player& client, Request& request) {
     string s;
@@ -25,6 +26,9 @@ Response Client::getResponse(Player& client) {
 }
 
 void Client::connectToServer(short unsigned int port) {
+    logger.info("Client started");
+    logger.debug("Port to connect to: " + to_string(port));
+
     asio::io_context ctx;
     tcp::resolver resolver{ctx};
 
@@ -41,7 +45,6 @@ void Client::connectToServer(short unsigned int port) {
     Request request;
     request.set_type(Request::START);
     request.set_name("Matthias");
-
     sendRequest(ref(myPlayer), ref(request));
 
     // Get confirmation
@@ -51,7 +54,7 @@ void Client::connectToServer(short unsigned int port) {
         myPlayer.setId(response.id());
 
         logger.info("I am playing as " + myPlayer.getName());
-        logger.debug("My ID is " + to_string(myPlayer.getId()));
+        logger.debug("Id: " + to_string(myPlayer.getId()));
     }
 
     // Wait for game start
@@ -59,11 +62,54 @@ void Client::connectToServer(short unsigned int port) {
     if (response.type() == Response::GAMESTART) {
         logger.info("Two prisoners are connected, game stars");
     }
+
+    // Game starts
+    play(ref(myPlayer));
+}
+
+void Client::getJsonSettings() {
+    std::ifstream i("../src/static/config.json");
+    i >> settings;
+}
+
+int Client::getChoiceFromCmd() {
+    logger.info("Please make a decision!");
+    logger.info("0 = not guilty, 1 = guilty");
+    int result{-1};
+
+    logger.info("Input");
+    cin >> result;
+    if (result == 0) {
+        logger.info("You said you are not guilty");
+    } else if (result == 1) {
+        logger.info("You said you are guilty");
+    }
+    return result;
+}
+
+void Client::play(Player& client) {
+    for(int i{0}; i < settings["rounds"]; i++) {
+        Request request;
+        request.set_type(Request::PLAY);
+        request.set_choice(getChoiceFromCmd());
+        sendRequest(ref(client), ref(request));
+
+        Response response = getResponse(ref(client));
+        if (response.type() == Response::PLAY) {
+            logger.info("You got punished: " + to_string(response.diff()));
+            logger.info("Overall: " + to_string(response.points()));
+        }
+    }
+    
+    while (true) {}
 }
 
 Client::Client(short unsigned int port) {
-    spdlog::set_level(spdlog::level::debug);
     this->port = port;
+    getJsonSettings();
+    if (settings["debug"]) {
+        spdlog::set_level(spdlog::level::debug);
+    }
     connectToServer(port);
 }
 

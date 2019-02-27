@@ -3,6 +3,7 @@
 #include "PrisonersDilemma.pb.h"
 #include "PrisonersDilemma.grpc.pb.h"
 #include "player.hpp"
+#include "json.hpp"
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wsign-conversion"
@@ -15,15 +16,23 @@
 #include <thread>
 #include <mutex>
 #include <condition_variable>
+#include <iostream>
+#include <fstream>
 
 class Server {
 private:
     short unsigned int port;
     LoggingProvider logger = LoggingProvider::getInstance();
     std::vector<Player> clients;
-    void startServer();
+    nlohmann::json settings;
 
-    void handleClient(Player client);
+    void getJsonSettings();
+    void startServer();
+    void handleClient(Player& client);
+    bool gamePreparation(Player& client);
+    void play(Player& client);
+    void calculateResult(int firstPlayerChoice, int secondPlayerChoice);
+    void punish(int firstTime, int secondTime);
 
     // Network
     void sendResponse(Player& client, Response& response);

@@ -6,11 +6,14 @@
 #pragma GCC diagnostic pop
 #include <string>
 
+#undef SPDLOG_EOL
+#define SPDLOG_EOL " "
 
 class LoggingProvider {
 public:
     static LoggingProvider& getInstance() {
         static LoggingProvider logger;
+        spdlog::set_pattern("[Prisoners Dilemma] [%^%l%$] %v");
         return logger;
     }
 
