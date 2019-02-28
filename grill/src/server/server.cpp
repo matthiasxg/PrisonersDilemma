@@ -89,28 +89,13 @@ void Server::play(Player& client) {
         Request request = getRequest(ref(client));
         if (request.type() == Request::PLAY) {
             client.setChoice(request.choice());
-            int firstPlayerChoice{-1};
-            int secondPlayerChoice{-1};
-            switch (client.getId())
-            {
-                case 1:
-                    firstPlayerChoice = client.getChoice();
-                    while(clients.at(1).getChoice() == -1) {}
-                    secondPlayerChoice = clients.at(1).getChoice();
-                    break;
-                case 2:
-                    secondPlayerChoice = client.getChoice();
-                    while(clients.at(0).getChoice() == -1) {}
-                    firstPlayerChoice = clients.at(0).getChoice();
-
-                    // Just calculate once
-                    if (i + 1 == (settings["rounds"])) { lastRound = true; }
-                    calculateResult(firstPlayerChoice, secondPlayerChoice, lastRound);
-
-                    break;
-                default:
-                    logger.warning("-1");
-                    break;
+            if (client.getId() == 1) {  // Player 1 handles everything :-)
+                while(clients.at(1).getChoice() == -1){} // Wait for second player
+                if (i + 1 == settings["rounds"]) { lastRound = true; }
+                calculateResult(client.getChoice(), clients.at(1).getChoice(), lastRound);
+                clients.at(1).setChoice(-1);
+            } else if (client.getId() == 2) { // Player 2 waits for Player 1
+                while(clients.at(1).getChoice() == -1){}
             }
         }
     }
@@ -157,9 +142,6 @@ void Server::punish(int punishFirst, int punishSecond, int choiceFirst, int choi
     response.set_oponentspoints(clients.at(0).getDetentionTime());
     response.set_oponentschoice(choiceFirst);
     sendResponse(ref(clients.at(1)), ref(response));
-
-    clients.at(0).setChoice(-1);
-    clients.at(0).setChoice(-2);
 }
 
 void Server::startServer(short unsigned int port) {
