@@ -1,5 +1,6 @@
 {
-    "playOnCommandLine": false,
+    "playOnCommandLine": true,
+    "serverIp": "localhost",
     "port": 8081,
-    "debug": false
+    "debug": true
 }

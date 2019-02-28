@@ -22,7 +22,7 @@ void Strategy::nextRound() {
  * 
  */
 int Strategy::getNextChoice(int oponentsLastChoice) {
-    if (oponentsLastChoice == 0) {
+    if (oponentsLastChoice == -1) {
         return 1;
     } else {
         return 0;

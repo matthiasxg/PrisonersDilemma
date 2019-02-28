@@ -13,7 +13,6 @@ void Server::sendResponse(Player& client, Response& response) {
     string s{};
     response.SerializeToString(&s);
     asio::write(*(client.getSocket()), asio::buffer(s + "ENDOFMESSAGE"));
-
     logger.debug("Sent response of type " + to_string(response.type()) + 
                  " to " + to_string(client.getId()));
 }
@@ -71,7 +70,7 @@ void Server::handleClient(Player& client) {
     if(gamePreparation(ref(client))) {
         logger.info("Preperations completed");
         play(ref(client));
-
+        
         // Disconnect
         client.setId(-1);
         while (clients.at(0).getId() != -1 || clients.at(1).getId() != -1) {}
@@ -85,6 +84,7 @@ void Server::handleClient(Player& client) {
 
 void Server::play(Player& client) {
     bool lastRound{false};
+    logger.info("Game started");
     for (int i{0}; i < settings["rounds"]; i++) {
         Request request = getRequest(ref(client));
         if (request.type() == Request::PLAY) {
@@ -133,7 +133,6 @@ void Server::calculateResult(int first, int second, bool lastRound) {
 void Server::punish(int punishFirst, int punishSecond, int choiceFirst, int choiceSecond, bool lastRound){
     clients.at(0).addDetentionTime(punishFirst);
     clients.at(1).addDetentionTime(punishSecond);
-    
 
     // Send them the info
     Response response;
@@ -144,16 +143,23 @@ void Server::punish(int punishFirst, int punishSecond, int choiceFirst, int choi
     // First Player
     response.set_type(Response::PLAY);
     response.set_diff(punishFirst);
+    response.set_oponentsdiff(punishSecond);
     response.set_points(clients.at(0).getDetentionTime());
+    response.set_oponentspoints(clients.at(1).getDetentionTime());
     response.set_oponentschoice(choiceSecond);
     sendResponse(ref(clients.at(0)), ref(response));
 
     // Second Player
     response.set_type(Response::PLAY);
     response.set_diff(punishSecond);
+    response.set_oponentsdiff(punishFirst);
     response.set_points(clients.at(1).getDetentionTime());
+    response.set_oponentspoints(clients.at(0).getDetentionTime());
     response.set_oponentschoice(choiceFirst);
     sendResponse(ref(clients.at(1)), ref(response));
+
+    clients.at(0).setChoice(-1);
+    clients.at(0).setChoice(-2);
 }
 
 void Server::startServer(short unsigned int port) {
@@ -193,7 +199,4 @@ Server::Server(json& config) {
     startServer(settings["port"]);
 }
 
-
-Server::~Server() {
-    
-}
+Server::~Server() {}

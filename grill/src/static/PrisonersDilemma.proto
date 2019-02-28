@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+message Empty {}
+
 message Request {
 
   enum Type {
@@ -26,7 +28,7 @@ message Response {
   int32 diff = 4;
   int32 points = 5;
   int32 oponentsChoice = 6;
-  int32 oponentsPoints = 7;
-  bool lastRound = 8;
-  bool winner = 9;
+  int32 oponentsDiff = 7;
+  int32 oponentsPoints = 8;
+  bool lastRound = 9;
 }

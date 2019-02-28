@@ -1,1 +1,1 @@
-Add port to config files
+Minor bug fixes

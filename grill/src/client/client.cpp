@@ -8,13 +8,13 @@ void Client::sendRequest(Player& client, Request& request) {
     string s;
     request.SerializeToString(&s);
 
-    asio::write(*client.getSocket(), asio::buffer(s + "ENDOFMESSAGE"));
+    asio::write(*(client.getSocket()), asio::buffer(s + "ENDOFMESSAGE"));
 }
 
 Response Client::getResponse(Player& client) {
     asio::streambuf buffer;
     asio::read_until(*client.getSocket(), buffer, "ENDOFMESSAGE");
-
+    
     asio::streambuf::const_buffers_type bufs = buffer.data();
     string responseString{asio::buffers_begin(bufs), 
                           asio::buffers_begin(bufs) + buffer.size()}; 
@@ -33,7 +33,7 @@ void Client::connectToServer(short unsigned int port) {
     asio::io_context ctx;
     tcp::resolver resolver{ctx};
 
-    auto result = resolver.resolve("localhost", to_string(port));
+    auto result = resolver.resolve(settings["serverIp"], to_string(port));
 
     tcp::socket socket(ctx);
 
@@ -103,15 +103,37 @@ void Client::play(Player& client) {
 
         Response response = getResponse(ref(client));
         if (response.type() == Response::PLAY) {
-            logger.info("You got punished: " + to_string(response.diff()));
-            logger.info("Overall: " + to_string(response.points()));
+            if (response.oponentschoice() == 0) {
+                logger.otherPlayer("The other prisoner said that he is NOT guilty");
+            } else {
+                logger.otherPlayer("The other prisoner said that he is GUILTY");
+            }
+            logger.info("So you got punished for " + to_string(response.diff()) + " years");
+            logger.otherPlayer("The other prisoner got punished for " + to_string(response.oponentsdiff()) + " years");
+            logger.info("Now you have a total detention time of " + to_string(response.points()) + " years");
+            logger.otherPlayer("The other prisoner has a total detention time of " + to_string(response.oponentspoints()) + " years");
             
             // Strategy
             oponentsLastChoice = response.oponentschoice();
             strategy.nextRound();
         }
 
-        if (response.lastround()) { break; }
+        if (response.lastround()) { 
+            logger.info("--------------------------------------------");
+            logger.info("Game is over, thanks for playing");
+            logger.info("Stats: ");
+            logger.info("Your detention time: " + to_string(response.points()) + " years");
+            logger.info("The other prisoner has a detention time of: " + to_string(response.oponentspoints()) + " years");
+            if (response.points() > response.oponentspoints()) {
+                logger.info("You are the LOOSER :-(");
+            } else if (response.points() < response.oponentspoints()) {
+                logger.info("You are the WINNER :-)");
+            } else {
+                logger.info("DRAW, have fun in the prison ;-)");
+            }
+            logger.info("--------------------------------------------");
+            break; 
+        }
     }
     
     // Disconnect
@@ -127,4 +149,3 @@ Client::Client(json& config) {
 }
 
 Client::~Client() {}
-

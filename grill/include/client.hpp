@@ -18,7 +18,7 @@
 #include <ostream>
 #include <fstream>
 
-class Client {
+class Client{
 private:
     LoggingProvider logger = LoggingProvider::getInstance();
     nlohmann::json settings;

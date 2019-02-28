@@ -40,4 +40,10 @@ public:
         spdlog::info(message);
         spdlog::set_pattern("[Prisoners Dilemma] [%^%l%$] %v");
     }
+
+    void otherPlayer(std::string message) {
+        spdlog::set_pattern("[Prisoners Dilemma] [%^Player 2%$] %v");
+        warning(message);
+        spdlog::set_pattern("[Prisoners Dilemma] [%^%l%$] %v");
+    }
 };
