@@ -14,7 +14,7 @@ void Client::sendRequest(Player& client, Request& request) {
 Response Client::getResponse(Player& client) {
     asio::streambuf buffer;
     asio::read_until(*client.getSocket(), buffer, "ENDOFMESSAGE");
-    
+
     asio::streambuf::const_buffers_type bufs = buffer.data();
     string responseString{asio::buffers_begin(bufs), 
                           asio::buffers_begin(bufs) + buffer.size()}; 
@@ -32,55 +32,74 @@ void Client::connectToServer(short unsigned int port) {
 
     asio::io_context ctx;
     tcp::resolver resolver{ctx};
-
     auto result = resolver.resolve(settings["serverIp"], to_string(port));
-
     tcp::socket socket(ctx);
+    
+    try {
+        asio::connect(socket, result);
+    
+        auto sck = make_shared<asio::ip::tcp::socket>(move(socket));
+        Player myPlayer{sck};
 
-    asio::connect(socket, result);
+        // I want to play
+        Request request;
+        request.set_type(Request::START);
 
-    auto sck = make_shared<asio::ip::tcp::socket>(move(socket));
-    Player myPlayer{sck};
+        // Select player name
+        logger.input("Whats your name? ");
+        string name;
+        cin >> name;
 
-    // I want to play
-    Request request;
-    request.set_type(Request::START);
+        request.set_name(name);
+        sendRequest(ref(myPlayer), ref(request));
 
-    // Select player name
-    logger.input("Whats your name? ");
-    string name;
-    cin >> name;
+        // Get confirmation
+        Response response = getResponse(ref(myPlayer));
+        if (response.type() == Response::CONFIRM) {
+            myPlayer.setName(response.name());
+            myPlayer.setId(response.id());
 
-    request.set_name(name);
-    sendRequest(ref(myPlayer), ref(request));
+            logger.info("Welcome " + myPlayer.getName());
+            logger.debug("You are player " + to_string(myPlayer.getId()));
+        }
 
-    // Get confirmation
-    Response response = getResponse(ref(myPlayer));
-    if (response.type() == Response::CONFIRM) {
-        myPlayer.setName(response.name());
-        myPlayer.setId(response.id());
+        // Wait for game start
+        response = getResponse(ref(myPlayer));
+        if (response.type() == Response::GAMESTART) {
+            logger.info("Game starts");
+        }
 
-        logger.info("Welcome " + myPlayer.getName());
-        logger.debug("You are player " + to_string(myPlayer.getId()));
+        // Game starts
+        play(ref(myPlayer));
     }
-
-    // Wait for game start
-    response = getResponse(ref(myPlayer));
-    if (response.type() == Response::GAMESTART) {
-        logger.info("Game starts");
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
     }
-
-    // Game starts
-    play(ref(myPlayer));
 }
 
 int Client::getChoice(int oponentsLastChoice) {
-    logger.info("Please make a decision!");
+    string input{"-1"};
     int result{-1};
     if (settings["playOnCommandLine"]) {
-        logger.info("0 = not guilty, 1 = guilty");
+        logger.info("Please make a decision!");
+        logger.info("0 or n = not guilty");
+        logger.info("1 or y = guilty");
         logger.input("");
-        cin >> result;
+        cin >> input;
+        try {
+            if (input == "y" || input == "Y") {
+                result = 1;
+            } else if (input == "n" || input == "N") {
+                result = 0;
+            } else {
+                result = stoi(input);
+            }
+        }
+        catch(...) {
+            logger.error("Invalid input");
+            return -1;
+        }
     } else {
         result = strategy.getNextChoice(oponentsLastChoice);
     }
@@ -89,6 +108,9 @@ int Client::getChoice(int oponentsLastChoice) {
         logger.info("You said you are not guilty");
     } else if (result == 1) {
         logger.info("You said you are guilty");
+    } else {
+        logger.error("Invalid input");
+        return -1;
     }
     return result;
 }
@@ -98,7 +120,9 @@ void Client::play(Player& client) {
     while (true) {
         Request request;
         request.set_type(Request::PLAY);
-        request.set_choice(getChoice(oponentsLastChoice));
+        int result = getChoice(oponentsLastChoice);
+        while (result == -1) { result = getChoice(oponentsLastChoice); }
+        request.set_choice(result);
         sendRequest(ref(client), ref(request));
 
         Response response = getResponse(ref(client));
@@ -119,7 +143,7 @@ void Client::play(Player& client) {
         }
 
         if (response.lastround()) { 
-            logger.info("--------------------------------------------");
+            logger.info("----------------------------------------------------------");
             logger.info("Game is over, thanks for playing");
             logger.info("Stats: ");
             logger.info("Your detention time: " + to_string(response.points()) + " years");
@@ -131,7 +155,7 @@ void Client::play(Player& client) {
             } else {
                 logger.info("DRAW, have fun in the prison ;-)");
             }
-            logger.info("--------------------------------------------");
+            logger.info("----------------------------------------------------------");
             break; 
         }
     }

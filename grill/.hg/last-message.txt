@@ -1,1 +1,1 @@
-Fixed major bug
+Add some error handling

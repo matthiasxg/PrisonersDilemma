@@ -17,6 +17,7 @@
 #include <vector>
 #include <ostream>
 #include <fstream>
+#include <algorithm>
 
 class Client{
 private:
