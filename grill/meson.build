@@ -48,7 +48,8 @@ proto = gen.process('src/static/PrisonersDilemma.proto')
 
 inc_dir = include_directories('include')
 server_src = [proto, 'src/server/main.cpp', 'src/server/server.cpp', 'src/static/player.cpp']
-client_src = [proto, 'src/client/main.cpp', 'src/client/client.cpp', 'src/static/player.cpp']
+client_src = [proto, 'src/client/main.cpp', 'src/client/client.cpp', 
+              'src/static/player.cpp', 'src/client/strategy.cpp']
 
 executable('server',
            sources : server_src,

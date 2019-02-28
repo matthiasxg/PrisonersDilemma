@@ -31,8 +31,8 @@ private:
     void handleClient(Player& client);
     bool gamePreparation(Player& client);
     void play(Player& client);
-    void calculateResult(int firstPlayerChoice, int secondPlayerChoice);
-    void punish(int firstTime, int secondTime);
+    void calculateResult(int firstPlayerChoice, int secondPlayerChoice, bool lastRound);
+    void punish(int firstTime, int secondTime, int firstChoice, int secondChoice, bool lastRound);
 
     // Network
     void sendResponse(Player& client, Response& response);

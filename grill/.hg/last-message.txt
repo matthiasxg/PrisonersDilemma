@@ -1,1 +1,1 @@
-Bug fixes and add server restart
+Remove old config file

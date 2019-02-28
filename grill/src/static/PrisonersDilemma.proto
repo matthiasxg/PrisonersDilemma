@@ -10,9 +10,6 @@ message Request {
   Type type = 1;
   int32 id = 2;
   string name = 3;
-  // -1 = not voted yet
-  // 0 = stays silent
-  // 1 = betrays
   int32 choice = 4;
 }
 
@@ -28,4 +25,8 @@ message Response {
   string name = 3;
   int32 diff = 4;
   int32 points = 5;
+  int32 oponentsChoice = 6;
+  int32 oponentsPoints = 7;
+  bool lastRound = 8;
+  bool winner = 9;
 }

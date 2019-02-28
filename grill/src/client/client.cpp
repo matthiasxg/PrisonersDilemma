@@ -75,16 +75,21 @@ void Client::connectToServer(short unsigned int port) {
 }
 
 void Client::getJsonSettings() {
-    std::ifstream i("../src/static/config.json");
+    std::ifstream i("../src/static/client_config.json");
     i >> settings;
 }
 
-int Client::getChoiceFromCmd() {
+int Client::getChoice(int oponentsLastChoice) {
     logger.info("Please make a decision!");
-    logger.info("0 = not guilty, 1 = guilty");
-    logger.input("");
     int result{-1};
-    cin >> result;
+    if (settings["playOnCommandLine"]) {
+        logger.info("0 = not guilty, 1 = guilty");
+        logger.input("");
+        cin >> result;
+    } else {
+        result = strategy.getNextChoice(oponentsLastChoice);
+    }
+
     if (result == 0) {
         logger.info("You said you are not guilty");
     } else if (result == 1) {
@@ -94,17 +99,24 @@ int Client::getChoiceFromCmd() {
 }
 
 void Client::play(Player& client) {
-    for(int i{0}; i < settings["rounds"]; i++) {
+    int oponentsLastChoice{-1};
+    while (true) {
         Request request;
         request.set_type(Request::PLAY);
-        request.set_choice(getChoiceFromCmd());
+        request.set_choice(getChoice(oponentsLastChoice));
         sendRequest(ref(client), ref(request));
 
         Response response = getResponse(ref(client));
         if (response.type() == Response::PLAY) {
             logger.info("You got punished: " + to_string(response.diff()));
             logger.info("Overall: " + to_string(response.points()));
+            
+            // Strategy
+            oponentsLastChoice = response.oponentschoice();
+            strategy.nextRound();
         }
+
+        if (response.lastround()) { break; }
     }
     
     // Disconnect

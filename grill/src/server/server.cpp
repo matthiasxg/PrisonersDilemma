@@ -73,7 +73,6 @@ void Server::handleClient(Player& client) {
         play(ref(client));
 
         // Disconnect
-        // client.getSocket()->close();
         client.setId(-1);
         while (clients.at(0).getId() != -1 || clients.at(1).getId() != -1) {}
         clients.clear();
@@ -85,6 +84,7 @@ void Server::handleClient(Player& client) {
 }
 
 void Server::play(Player& client) {
+    bool lastRound{false};
     for (int i{0}; i < settings["rounds"]; i++) {
         Request request = getRequest(ref(client));
         if (request.type() == Request::PLAY) {
@@ -104,7 +104,8 @@ void Server::play(Player& client) {
                     firstPlayerChoice = clients.at(0).getChoice();
 
                     // Just calculate once
-                    calculateResult(firstPlayerChoice, secondPlayerChoice);
+                    if (i + 1 == (settings["rounds"])) { lastRound = true; }
+                    calculateResult(firstPlayerChoice, secondPlayerChoice, lastRound);
 
                     break;
                 default:
@@ -115,34 +116,43 @@ void Server::play(Player& client) {
     }
 }
 
-void Server::calculateResult(int first, int second) {
+void Server::calculateResult(int first, int second, bool lastRound) {
     if (first == 0 && second == 0) {
-        punish(2, 2);
+        punish(2, 2, first, second, lastRound);
     } else if (first == 0 && second == 1) {
-        punish(6, 1);
+        punish(6, 1, first, second, lastRound);
     } else if (first == 1 && second == 0) {
-        punish(1, 6);
+        punish(1, 6, first, second, lastRound);
     } else if (first == 1 && second == 1) {
-        punish(4, 4);
+        punish(4, 4, first, second, lastRound);
     } else {
         logger.warning("Error");
     }
 }
 
-void Server::punish(int first, int second){
-    clients.at(0).addDetentionTime(first);
-    clients.at(1).addDetentionTime(second);
+void Server::punish(int punishFirst, int punishSecond, int choiceFirst, int choiceSecond, bool lastRound){
+    clients.at(0).addDetentionTime(punishFirst);
+    clients.at(1).addDetentionTime(punishSecond);
     
+
     // Send them the info
     Response response;
+
+    // Last round
+    if (lastRound) { response.set_lastround(true); }
+
+    // First Player
     response.set_type(Response::PLAY);
-    response.set_diff(first);
+    response.set_diff(punishFirst);
     response.set_points(clients.at(0).getDetentionTime());
+    response.set_oponentschoice(choiceSecond);
     sendResponse(ref(clients.at(0)), ref(response));
 
+    // Second Player
     response.set_type(Response::PLAY);
-    response.set_diff(second);
+    response.set_diff(punishSecond);
     response.set_points(clients.at(1).getDetentionTime());
+    response.set_oponentschoice(choiceFirst);
     sendResponse(ref(clients.at(1)), ref(response));
 }
 
@@ -176,7 +186,7 @@ void Server::startServer() {
 }
 
 void Server::getJsonSettings() {
-    std::ifstream i("../src/static/config.json");
+    std::ifstream i("../src/static/server_config.json");
     i >> settings;
 }
 

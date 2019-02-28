@@ -11,6 +11,7 @@
 #include "player.hpp"
 #include "logging_provider.hpp"
 #include "json.hpp"
+#include "strategy.hpp"
 
 #include <string>
 #include <vector>
@@ -22,11 +23,12 @@ private:
     short unsigned int port;
     LoggingProvider logger = LoggingProvider::getInstance();
     nlohmann::json settings;
+    Strategy strategy;
 
     void getJsonSettings();
     void connectToServer(short unsigned int port);
     void play(Player& client);
-    int getChoiceFromCmd();
+    int getChoice(int oponentsLastChoice);
 
     // Network
     void sendRequest(Player& client, Request& request);
