@@ -21,13 +21,11 @@
 
 class Server {
 private:
-    short unsigned int port;
     LoggingProvider logger = LoggingProvider::getInstance();
     std::vector<Player> clients;
     nlohmann::json settings;
 
-    void getJsonSettings();
-    void startServer();
+    void startServer(short unsigned int port);
     void handleClient(Player& client);
     bool gamePreparation(Player& client);
     void play(Player& client);
@@ -38,6 +36,6 @@ private:
     void sendResponse(Player& client, Response& response);
     Request getRequest(Player& client);
 public:
-    Server(short unsigned int port);
+    Server(nlohmann::json& config);
     ~Server();
 };

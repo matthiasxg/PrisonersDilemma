@@ -20,12 +20,10 @@
 
 class Client {
 private:
-    short unsigned int port;
     LoggingProvider logger = LoggingProvider::getInstance();
     nlohmann::json settings;
     Strategy strategy;
 
-    void getJsonSettings();
     void connectToServer(short unsigned int port);
     void play(Player& client);
     int getChoice(int oponentsLastChoice);
@@ -34,6 +32,6 @@ private:
     void sendRequest(Player& client, Request& request);
     Response getResponse(Player& client);
 public:
-    Client(short unsigned int port);
+    Client(nlohmann::json& config);
     ~Client();
 };

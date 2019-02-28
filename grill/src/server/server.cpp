@@ -156,7 +156,7 @@ void Server::punish(int punishFirst, int punishSecond, int choiceFirst, int choi
     sendResponse(ref(clients.at(1)), ref(response));
 }
 
-void Server::startServer() {
+void Server::startServer(short unsigned int port) {
     asio::io_context ctx;
     tcp::endpoint ep{tcp::v4(), port};
     tcp::acceptor acceptor{ctx, ep};
@@ -185,18 +185,12 @@ void Server::startServer() {
     }
 }
 
-void Server::getJsonSettings() {
-    std::ifstream i("../src/static/server_config.json");
-    i >> settings;
-}
-
-Server::Server(short unsigned int port) {
-    this->port = port;
-    getJsonSettings();
+Server::Server(json& config) {
+    this->settings = config;
     if (settings["debug"]) {
         spdlog::set_level(spdlog::level::debug);
     }
-    startServer();
+    startServer(settings["port"]);
 }
 
 

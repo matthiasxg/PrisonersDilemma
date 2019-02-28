@@ -74,11 +74,6 @@ void Client::connectToServer(short unsigned int port) {
     play(ref(myPlayer));
 }
 
-void Client::getJsonSettings() {
-    std::ifstream i("../src/static/client_config.json");
-    i >> settings;
-}
-
 int Client::getChoice(int oponentsLastChoice) {
     logger.info("Please make a decision!");
     int result{-1};
@@ -123,13 +118,12 @@ void Client::play(Player& client) {
     client.getSocket()->close();
 }
 
-Client::Client(short unsigned int port) {
-    this->port = port;
-    getJsonSettings();
+Client::Client(json& config) {
+    this->settings = config;
     if (settings["debug"]) {
         spdlog::set_level(spdlog::level::debug);
     }
-    connectToServer(port);
+    connectToServer(settings["port"]);
 }
 
 Client::~Client() {}
