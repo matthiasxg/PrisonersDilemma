@@ -1,1 +1,1 @@
-Add some error handling
+Add a commandline interface to server and client
