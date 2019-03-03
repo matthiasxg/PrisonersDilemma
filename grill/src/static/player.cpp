@@ -1,3 +1,9 @@
+/*
+ *  Name: Matthias Grill
+ *  Class: 5BHIF
+ *  Date: 27.02.2019
+ *  File: static/player.cpp
+ */
 #include "player.hpp"
 
 using namespace std;

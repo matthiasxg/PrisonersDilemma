@@ -1,15 +1,22 @@
+/*
+ *  Name: Matthias Grill
+ *  Class: 5BHIF
+ *  Date: 27.02.2019
+ *  File: include/server.hpp
+ */
 #pragma once
-#include "logging_provider.hpp"
-#include "PrisonersDilemma.pb.h"
-#include "PrisonersDilemma.grpc.pb.h"
-#include "player.hpp"
-#include "json.hpp"
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wsign-conversion"
 #pragma GCC diagnostic ignored "-Wconversion"
 #include "asio.hpp"
 #pragma GCC diagnostic pop
+
+#include "logging_provider.hpp"
+#include "PrisonersDilemma.pb.h"
+#include "PrisonersDilemma.grpc.pb.h"
+#include "player.hpp"
+#include "json.hpp"
 
 #include <string>
 #include <vector>
@@ -29,8 +36,10 @@ private:
     void handleClient(Player& client);
     bool gamePreparation(Player& client);
     void play(Player& client);
-    void calculateResult(int firstPlayerChoice, int secondPlayerChoice, bool lastRound);
-    void punish(int firstTime, int secondTime, int firstChoice, int secondChoice, bool lastRound);
+    void calculateResult(int firstPlayerChoice, int secondPlayerChoice,
+                         bool lastRound);
+    void punish(int firstTime, int secondTime, int firstChoice, 
+                int secondChoice, bool lastRound);
 
     // Network
     void sendResponse(Player& client, Response& response);

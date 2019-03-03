@@ -1,4 +1,4 @@
-# Game rules
+# Prisoners Dilemma Game Rules
 
 |                       | Player B stays silent | Player B betrays      |
 |-----------------------|-----------------------|-----------------------|

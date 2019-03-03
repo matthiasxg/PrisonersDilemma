@@ -1,10 +1,16 @@
-#include "client.hpp"
-#include "json.hpp"
-
+/*
+ *  Name: Matthias Grill
+ *  Class: 5BHIF
+ *  Date: 27.02.2019
+ *  File: src/client/main.cpp
+ */
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wsign-conversion"
 #include "clipp.h"
 #pragma GCC diagnostic pop
+
+#include "client.hpp"
+#include "json.hpp"
 
 using namespace std;
 using json = nlohmann::json;

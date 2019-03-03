@@ -1,3 +1,9 @@
+/*
+ *  Name: Matthias Grill
+ *  Class: 5BHIF
+ *  Date: 27.02.2019
+ *  File: include/client.hpp
+ */
 #pragma once
 
 #pragma GCC diagnostic push
@@ -23,6 +29,7 @@ class Client{
 private:
     LoggingProvider logger = LoggingProvider::getInstance();
     nlohmann::json settings;
+
     Strategy strategy;
 
     void connectToServer(short unsigned int port);

@@ -1,3 +1,9 @@
+/*
+ *  Name: Matthias Grill
+ *  Class: 5BHIF
+ *  Date: 27.02.2019
+ *  File: include/logging_provider.hpp
+ */
 #pragma once
 
 #define SPDLOG_EOL ""
@@ -7,6 +13,7 @@
 #include "spdlog/spdlog.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
 #pragma GCC diagnostic pop
+
 #include <string>
 
 class LoggingProvider {
@@ -42,7 +49,7 @@ public:
     }
 
     void otherPlayer(std::string message) {
-        spdlog::set_pattern("[Prisoners Dilemma] [%^Player 2%$] %v");
+        spdlog::set_pattern("[Prisoners Dilemma] [%^Opponent%$] %v");
         warning(message);
         spdlog::set_pattern("[Prisoners Dilemma] [%^%l%$] %v");
     }

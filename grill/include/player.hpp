@@ -1,3 +1,9 @@
+/*
+ *  Name: Matthias Grill
+ *  Class: 5BHIF
+ *  Date: 27.02.2019
+ *  File: include/player.hpp
+ */
 #pragma once
 
 #pragma GCC diagnostic push

@@ -1,3 +1,9 @@
+/*
+ *  Name: Matthias Grill
+ *  Class: 5BHIF
+ *  Date: 27.02.2019
+ *  File: src/client/strategy.cpp
+ */
 #include "strategy.hpp"
 
 using namespace std;

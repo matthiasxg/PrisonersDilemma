@@ -1,3 +1,9 @@
+/*
+ *  Name: Matthias Grill
+ *  Class: 5BHIF
+ *  Date: 27.02.2019
+ *  File: include/strategy.hpp
+ */
 #pragma once
 #include "logging_provider.hpp"
 

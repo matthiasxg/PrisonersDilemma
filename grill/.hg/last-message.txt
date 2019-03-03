@@ -1,1 +1,1 @@
-Add a commandline interface to server and client
+Add missing headers and clean up
