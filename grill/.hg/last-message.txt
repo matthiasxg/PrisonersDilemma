@@ -1,1 +1,1 @@
-Add missing headers and clean up
+Add some strategies

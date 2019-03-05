@@ -24,8 +24,6 @@ public:
         return logger;
     }
 
-    ~LoggingProvider() {}
-
     void info(std::string message) {
         spdlog::info(message + "\n");
     }

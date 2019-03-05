@@ -41,5 +41,4 @@ private:
     Response getResponse(Player& client);
 public:
     Client(nlohmann::json& config);
-    ~Client();
 };

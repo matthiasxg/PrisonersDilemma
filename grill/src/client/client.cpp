@@ -177,5 +177,3 @@ Client::Client(json& config) {
     }
     connectToServer(settings["port"]);
 }
-
-Client::~Client() {}

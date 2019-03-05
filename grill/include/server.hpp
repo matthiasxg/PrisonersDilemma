@@ -46,5 +46,4 @@ private:
     Request getRequest(Player& client);
 public:
     Server(nlohmann::json& config);
-    ~Server();
 };

@@ -186,5 +186,3 @@ Server::Server(json& config) {
     }
     startServer(settings["port"]);
 }
-
-Server::~Server() {}

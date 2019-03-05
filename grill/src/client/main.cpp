@@ -24,9 +24,6 @@ json getJsonSettings() {
 }
 
 int main(int argc, char* argv[]) {
-    // Logger
-    LoggingProvider logger = LoggingProvider::getInstance();
-
     // CLI
     short unsigned int port{0};
     int ip{-1};
