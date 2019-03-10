@@ -24,9 +24,10 @@ json getJsonSettings() {
 }
 
 int main(int argc, char* argv[]) {
-    // CLI
+
+    // Commandline interface
     short unsigned int port{0};
-    int ip{-1};
+    string ip{""};
     bool help{false};
     bool debug{false};
     bool strategy{false};
@@ -44,16 +45,18 @@ int main(int argc, char* argv[]) {
         return 1;
     } else if (help) {
         cout << make_man_page(cli, argv[0]);
+        return 1;
     }
 
-    // Set values to settings
+    // Set values to JSON settings
     json client_config = getJsonSettings();
-    if(ip != -1) client_config["serverIp"] = ip;
+    if(ip != "") client_config["serverIp"] = ip;
+    cout << ip << endl;
     if(port != 0) client_config["port"] = port;
     if(strategy) client_config["playOnCommandLine"] = false;
     if(debug) client_config["debug"] = true;
 
-    // Start client
+    // Start client with JSON settings
     Client client(ref(client_config));
     return 0;
 }

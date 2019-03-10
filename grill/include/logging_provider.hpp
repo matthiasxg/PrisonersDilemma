@@ -33,7 +33,7 @@ public:
     }
     
     void error(std::string message) {
-        spdlog::error(message + "\n");
+        spdlog::error(message);
     }
     
     void debug(std::string message) {

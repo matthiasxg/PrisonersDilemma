@@ -1,1 +1,1 @@
-Add some strategies
+Add more error handling

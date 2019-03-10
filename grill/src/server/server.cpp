@@ -16,28 +16,39 @@ bool ready = false;
 
 //Networking stuff
 void Server::sendResponse(Player& client, Response& response) {
-    string s{};
-    response.SerializeToString(&s);
-    asio::write(*(client.getSocket()), asio::buffer(s + "ENDOFMESSAGE"));
-    logger.debug("Sent response of type " + to_string(response.type()) + 
-                 " to " + to_string(client.getId()));
+    try {
+        string s{};
+        response.SerializeToString(&s);
+        asio::write(*(client.getSocket()), asio::buffer(s + "ENDOFMESSAGE"));
+        logger.debug("Sent response of type " + to_string(response.type()) + 
+                    " to " + to_string(client.getId()));
+    } catch(const std::exception& e) {
+        logger.error("Server send response error: ");
+        std::cerr << e.what() << '\n';
+    }
 }
 
 Request Server::getRequest(Player& client) {
-    asio::streambuf buffer;
-    asio::read_until(*client.getSocket(), buffer, "ENDOFMESSAGE");
+    try {
+        asio::streambuf buffer;
+        asio::read_until(*client.getSocket(), buffer, "ENDOFMESSAGE");
 
-    asio::streambuf::const_buffers_type bufs = buffer.data();
-    string requestString{asio::buffers_begin(bufs), asio::buffers_begin(bufs) + buffer.size()}; 
-    requestString.erase(requestString.size() - 12);
+        asio::streambuf::const_buffers_type bufs = buffer.data();
+        string requestString{asio::buffers_begin(bufs), asio::buffers_begin(bufs) + buffer.size()}; 
+        requestString.erase(requestString.size() - 12);
 
-    Request request;
-    request.ParseFromString(requestString);
+        Request request;
+        request.ParseFromString(requestString);
 
-    logger.debug("Got request of type " + to_string(request.type()) + 
-                 " from " + to_string(client.getId()));
+        logger.debug("Got request of type " + to_string(request.type()) + 
+                    " from " + to_string(client.getId()));
 
-    return request;
+        return request;
+    } catch(const std::exception& e) {
+        logger.error("Server get request error: ");
+        std::cerr << e.what() << '\n';
+    }
+    return Request{};    
 }
 
 bool Server::gamePreparation(Player& client) {
@@ -85,24 +96,35 @@ void Server::handleClient(Player& client) {
         ready = false;
 
         logger.info("Server restarts...");
+    } else {
+        logger.error("Game preparation failed\n");
+        exit(1);
     }
 }
 
 void Server::play(Player& client) {
     bool lastRound{false};
     logger.info("Game started");
+
     for (int i{0}; i < settings["rounds"]; i++) {
         Request request = getRequest(ref(client));
+
         if (request.type() == Request::PLAY) {
             client.setChoice(request.choice());
-            if (client.getId() == 1) {  // Player 1 handles everything :-)
+
+            if (client.getId() == 1) {  // Player 1 handles everything
+
                 while(clients.at(1).getChoice() == -1){} // Wait for second player
                 if (i + 1 == settings["rounds"]) { lastRound = true; }
                 calculateResult(client.getChoice(), clients.at(1).getChoice(), lastRound);
                 clients.at(1).setChoice(-1);
+
             } else if (client.getId() == 2) { // Player 2 waits for Player 1
                 while(clients.at(1).getChoice() == -1){}
             }
+        } else {
+            logger.error("Sever got no play request\n");
+            exit(1);
         }
     }
 }
@@ -117,7 +139,9 @@ void Server::calculateResult(int first, int second, bool lastRound) {
     } else if (first == 1 && second == 1) {
         punish(4, 4, first, second, lastRound);
     } else {
-        logger.warning("Error");
+        logger.error("Incorrect parameters in function calculateResult\n");
+        logger.error("Got first: " + to_string(first) + " second: " + to_string(second));
+        exit(1);
     }
 }
 
@@ -151,38 +175,47 @@ void Server::punish(int punishFirst, int punishSecond, int choiceFirst, int choi
 }
 
 void Server::startServer(short unsigned int port) {
-    asio::io_context ctx;
-    tcp::endpoint ep{tcp::v4(), port};
-    tcp::acceptor acceptor{ctx, ep};
+    try {
+        asio::io_context ctx;
+        tcp::endpoint ep{tcp::v4(), port};
+        tcp::acceptor acceptor{ctx, ep};
 
-    logger.info("Server started");
-    logger.debug("Port " + to_string(port));
+        logger.info("Server started");
+        logger.debug("Port " + to_string(port));
 
-    acceptor.listen();
-    
-    // Reserve for two clients
-    clients.reserve(2);
-
-    while(true){
+        acceptor.listen();
         
-        // 2 = Number of players
-        while (clients.size() < 2) {
-            Player player = make_shared<asio::ip::tcp::socket>(acceptor.accept());
-            this->clients.push_back(player);
+        // Reserve for two clients
+        clients.reserve(2);
 
-            thread t(&Server::handleClient, this, ref(clients.at(clients.size() - 1)));
-            t.detach();
+        while(true){
+            
+            // 2 = Number of players
+            while (clients.size() < 2) {
+                Player player = make_shared<asio::ip::tcp::socket>(acceptor.accept());
+                this->clients.push_back(player);
+
+                thread t(&Server::handleClient, this, ref(clients.at(clients.size() - 1)));
+                t.detach();
+            }
+
+            // Notify about game start
+            ready = true;
+            cv.notify_all();
         }
-
-        ready = true;
-        cv.notify_all();
+    } catch(const std::exception& e) {
+        logger.error("Start server error: ");
+        std::cerr << e.what() << '\n';
     }
 }
 
 Server::Server(json& config) {
+
+    // Set settings and logger level
     this->settings = config;
     if (settings["debug"]) {
         spdlog::set_level(spdlog::level::debug);
     }
+
     startServer(settings["port"]);
 }

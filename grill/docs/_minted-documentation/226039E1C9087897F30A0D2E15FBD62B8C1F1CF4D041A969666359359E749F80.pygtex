@@ -1,0 +1,8 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{p}{\PYGZob{}}
+    \PYG{n+nt}{\PYGZdq{}playOnCommandLine\PYGZdq{}}\PYG{p}{:} \PYG{k+kc}{true}\PYG{p}{,}
+    \PYG{n+nt}{\PYGZdq{}serverIp\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}localhost\PYGZdq{}}\PYG{p}{,}
+    \PYG{n+nt}{\PYGZdq{}port\PYGZdq{}}\PYG{p}{:} \PYG{l+m+mi}{8081}\PYG{p}{,}
+    \PYG{n+nt}{\PYGZdq{}debug\PYGZdq{}}\PYG{p}{:} \PYG{k+kc}{false}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

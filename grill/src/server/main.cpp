@@ -25,7 +25,8 @@ json getJsonSettings() {
 }
 
 int main(int argc, char* argv[]) {
-    // CLI
+    
+    // Commandline interface
     short unsigned int port{0};
     bool help{false};
     bool debug{false};
@@ -43,6 +44,7 @@ int main(int argc, char* argv[]) {
         return 1;
     } else if (help) {
         cout << make_man_page(cli, argv[0]);
+        return 1;
     }
 
     // Set values to settings
@@ -51,6 +53,7 @@ int main(int argc, char* argv[]) {
     if(rounds != -1) server_config["rounds"] = rounds;
     if(debug) server_config["debug"] = true;
 
+    // Start server
     Server server(ref(server_config));
     return 0;
 }

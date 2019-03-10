@@ -39,10 +39,8 @@ void Strategy::nextRound()
 int Strategy::getNextChoice(int oponentsLastChoice) {
     if (oponentsLastChoice == -1) {
         return 1;
-    } else {
-        return 0;
     }
-    return 0;
+    return oponentsLastChoice;
 }
 
 // always cooperates
@@ -57,7 +55,10 @@ int Strategy::alwaysDefects() {
 
 // Makes a random move
 int Strategy::randomPlayer() {
-    return rand() % 2;
+    random_device rd;
+    mt19937 gen{rd()};
+    uniform_int_distribution<> dis{0, 1};
+    return dis(gen);
 }
 
 // cooperates on the first move then plays what its opponent played the previous move
