@@ -1,7 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{p}{\PYGZob{}}
-    \PYG{n+nt}{\PYGZdq{}port\PYGZdq{}}\PYG{p}{:} \PYG{l+m+mi}{8081}\PYG{p}{,}
-    \PYG{n+nt}{\PYGZdq{}rounds\PYGZdq{}}\PYG{p}{:} \PYG{l+m+mi}{3}\PYG{p}{,}
-    \PYG{n+nt}{\PYGZdq{}debug\PYGZdq{}}\PYG{p}{:} \PYG{k+kc}{false}
-\PYG{p}{\PYGZcb{}}
-\end{Verbatim}

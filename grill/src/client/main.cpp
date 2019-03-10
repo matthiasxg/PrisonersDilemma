@@ -33,11 +33,11 @@ int main(int argc, char* argv[]) {
     bool strategy{false};
 
     auto cli = (
-        option("-st", "--strategy").set(strategy).doc("your own strategy will be used"),
-        option("-s", "--server").doc("ip adress of server") & value("ip", ip),
-        option("-p", "--port").doc("port to connect to") & value("port", port),
+        option("-st", "--strategy").set(strategy).doc("Your own strategy will be used"),
+        option("-s", "--server").doc("Ip adress of server") & value("ip", ip),
+        option("-p", "--port").doc("Port to connect to") & value("port", port),
         option("-d", "--debug").set(debug).doc("Debug mode"),
-        option("-h", "--help").set(help).doc("help")
+        option("-h", "--help").set(help).doc("Print this help message and exit")
     );
 
     if (!parse(argc, argv, cli)) {
@@ -51,7 +51,6 @@ int main(int argc, char* argv[]) {
     // Set values to JSON settings
     json client_config = getJsonSettings();
     if(ip != "") client_config["serverIp"] = ip;
-    cout << ip << endl;
     if(port != 0) client_config["port"] = port;
     if(strategy) client_config["playOnCommandLine"] = false;
     if(debug) client_config["debug"] = true;

@@ -69,7 +69,7 @@ bool Server::gamePreparation(Player& client) {
         sendResponse(ref(client), ref(response));
 
         // Wait for second game partner
-        logger.debug(to_string(client.getId()) + " waits for second prisoner");
+        logger.debug("Player " + to_string(client.getId()) + " waits for second prisoner");
         std::unique_lock<std::mutex> lk(m);
         cv.wait(lk, []{return ready;});
         logger.debug("Two players are connected");
@@ -85,7 +85,7 @@ bool Server::gamePreparation(Player& client) {
 
 void Server::handleClient(Player& client) {
     if(gamePreparation(ref(client))) {
-        logger.info("Preperations completed");
+        logger.info("Preperations completed successfully");
         play(ref(client));
         
         // Disconnect
@@ -112,15 +112,30 @@ void Server::play(Player& client) {
         if (request.type() == Request::PLAY) {
             client.setChoice(request.choice());
 
-            if (client.getId() == 1) {  // Player 1 handles everything
+            // Player 1 handles everything
+            if (client.getId() == 1) {  
 
-                while(clients.at(1).getChoice() == -1){} // Wait for second player
+                // Wait for second player
+                logger.debug("Player 1 waits for player 2");
+                while(clients.at(1).getChoice() == -1){} 
+                logger.debug("Player 1 is not waiting anymore");
+
+                // Check if last round
                 if (i + 1 == settings["rounds"]) { lastRound = true; }
+
+                // Calculate result and notify clients
                 calculateResult(client.getChoice(), clients.at(1).getChoice(), lastRound);
+
+                // Reset choices
+                // clients.at(0).setChoice(-1);
                 clients.at(1).setChoice(-1);
 
-            } else if (client.getId() == 2) { // Player 2 waits for Player 1
-                while(clients.at(1).getChoice() == -1){}
+            } else if (client.getId() == 2) {
+
+                // Wait for first player
+                logger.debug("Player 2 waits for player 1");
+                while(clients.at(0).getChoice() == -1){}
+                logger.debug("Player 2 is not waiting anymore");
             }
         } else {
             logger.error("Sever got no play request\n");
@@ -182,7 +197,9 @@ void Server::startServer(short unsigned int port) {
 
         logger.info("Server started");
         logger.debug("Port " + to_string(port));
+        logger.info(to_string(settings["rounds"].get<int>()) + " rounds will be played");
 
+        logger.debug("Server listens");
         acceptor.listen();
         
         // Reserve for two clients
@@ -193,6 +210,7 @@ void Server::startServer(short unsigned int port) {
             // 2 = Number of players
             while (clients.size() < 2) {
                 Player player = make_shared<asio::ip::tcp::socket>(acceptor.accept());
+                logger.debug("Server accepted a player");
                 this->clients.push_back(player);
 
                 thread t(&Server::handleClient, this, ref(clients.at(clients.size() - 1)));
@@ -203,6 +221,7 @@ void Server::startServer(short unsigned int port) {
             ready = true;
             cv.notify_all();
         }
+        
     } catch(const std::exception& e) {
         logger.error("Start server error: ");
         std::cerr << e.what() << '\n';

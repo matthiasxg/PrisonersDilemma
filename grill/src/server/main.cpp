@@ -33,10 +33,10 @@ int main(int argc, char* argv[]) {
     int rounds{-1};
 
     auto cli = (
-        option("-p", "--port").doc("port to connect to") & value("port", port),
-        option("-r", "--rounds").doc("number of rounds you want to play") & value("rounds", rounds),
+        option("-p", "--port").doc("Port to connect to") & value("port", port),
+        option("-r", "--rounds").doc("Number of rounds you want to play") & value("rounds", rounds),
         option("-d", "--debug").set(debug).doc("Debug mode"),
-        option("-h", "--help").set(help).doc("help")
+        option("-h", "--help").set(help).doc("Print this help message and exit")
     );
 
     if (!parse(argc, argv, cli)) {

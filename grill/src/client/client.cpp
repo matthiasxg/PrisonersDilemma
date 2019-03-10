@@ -15,6 +15,7 @@ void Client::sendRequest(Player& client, Request& request) {
         string s;
         request.SerializeToString(&s);
         asio::write(*(client.getSocket()), asio::buffer(s + "ENDOFMESSAGE"));
+        logger.debug("Sent request");
     } catch(const std::exception& e) {
         logger.error("Client send request error: ");
         std::cerr << e.what() << '\n';
@@ -24,7 +25,9 @@ void Client::sendRequest(Player& client, Request& request) {
 Response Client::getResponse(Player& client) {
     try {
         asio::streambuf buffer;
+        logger.debug("Wait for response");
         asio::read_until(*client.getSocket(), buffer, "ENDOFMESSAGE");
+        logger.debug("Got response");
 
         asio::streambuf::const_buffers_type bufs = buffer.data();
         string responseString{asio::buffers_begin(bufs), 
@@ -36,7 +39,7 @@ Response Client::getResponse(Player& client) {
 
         return response;
     } catch(const std::exception& e) {
-        logger.error("Client get response error: ");
+        logger.error("GetResponse error: ");
         std::cerr << e.what() << '\n';
     }
     return Response{};

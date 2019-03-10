@@ -16,6 +16,7 @@ message Request {
 }
 
 message Response {
+  
   enum Type {
     CONFIRM = 0;
     GAMESTART = 1;
