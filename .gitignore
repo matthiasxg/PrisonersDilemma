@@ -31,6 +31,8 @@
 *.out
 *.app
 
-# Useless stuff
+# stuff
 grill/build/*
 .vscode
+.vscode/settings.json
+grill/
